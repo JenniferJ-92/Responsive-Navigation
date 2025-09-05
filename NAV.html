@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Scroll Colors</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      scroll-behavior: smooth;
+      transition: background 1s ease; /* smooth background transition */
+      background: yellow; /* initial color */
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: #FC8EAC;
+      display: flex;
+      justify-content: center;
+      padding: 15px 0;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      padding-bottom: 5px;
+    }
+
+    nav ul li a:hover {
+      border-bottom: 2px solid white;
+    }
+
+    section {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 50px;
+      font-weight: bold;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Sections -->
+  <section id="home">Home</section>
+  <section id="about">About</section>
+  <section id="services">Services</section>
+  <section id="contact">Contact</section>
+
+  <script>
+    // Define vivid colors to cycle through
+    const colors = ["#ff7675", "#74b9ff", "#55efc4", "#ffeaa7", "#a29bfe", "#fd79a8", "#00cec9", "#fab1a0"];
+    let lastColor = "yellow"; // initial
+    let currentIndex = -1;
+
+    // Function to get a random new color, not same as last
+    function getNewColor() {
+      let newColor;
+      do {
+        newColor = colors[Math.floor(Math.random() * colors.length)];
+      } while (newColor === lastColor);
+      lastColor = newColor;
+      return newColor;
+    }
+
+    // Detect scroll direction
+    let lastScrollTop = 0;
+    window.addEventListener("scroll", () => {
+      let st = window.pageYOffset || document.documentElement.scrollTop;
+
+      if (Math.abs(st - lastScrollTop) > 50) { // trigger only after enough scroll
+        document.body.style.background = getNewColor();
+        lastScrollTop = st <= 0 ? 0 : st; // update scroll pos
+      }
+    });
+  </script>
+</body>
+</html>
